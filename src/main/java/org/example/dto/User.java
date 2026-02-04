@@ -48,4 +48,13 @@ public class User {
     public void removeAccount(Account account) {
         this.accountList.remove(account);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", accountList=" + accountList +
+                '}';
+    }
 }

@@ -29,10 +29,9 @@ public class UserService {
         try(Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
             try {
-                User userFromDB = session.get(User.class, login);
-//                Query<User> q = session.createQuery("from User u where u.login = :login", User.class)
-//                        .setParameter("login", login);
-                if (userFromDB != null) {
+                Query<User> q = session.createQuery("from User u where u.login = :login", User.class)
+                        .setParameter("login", login);
+                if (!q.list().isEmpty()) {
                     throw new LoginAlreadyExistsException(login);
                 }
 
