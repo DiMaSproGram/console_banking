@@ -109,8 +109,11 @@ public class AccountService {
 
     public void closeAccount(long accountId) {
         inTransaction(session -> {
-            Account account = findAccountById(accountId);
-            User user = userService.findUserById(account.getUser().getId());
+            Account account = session
+                    .createQuery("SELECT a FROM Account a JOIN FETCH a.user WHERE a.id = :id", Account.class)
+                    .setParameter("id", accountId)
+                    .getSingleResult();
+            User user = account.getUser();
             if (user.getAccountList().size() == 1) {
                 throw new AccountClosingException(user.getLogin());
             }
