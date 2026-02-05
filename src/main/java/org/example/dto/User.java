@@ -1,18 +1,60 @@
 package org.example.dto;
 
-import java.util.ArrayList;
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.util.List;
 
-public record User(int id, String login, List<Account> accounts) {
-    public User(int id, String login) {
-        this(id, login, new ArrayList<>());
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String login;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Account> accountList;
+
+    public User() {
+    }
+
+    public User(String login, List<Account> accountList) {
+        this.login = login;
+        this.accountList = accountList;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public List<Account> getAccountList() {
+        return accountList;
     }
 
     public void addAccount(Account account) {
-        accounts.add(account);
+        this.accountList.add(account);
+    }
+    public void removeAccount(Account account) {
+        this.accountList.remove(account);
     }
 
-    public void removeAccount(Account account) {
-        accounts.remove(account);
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", accountList=" + accountList +
+                '}';
     }
 }

@@ -1,41 +1,55 @@
 package org.example.dto;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "account")
 public class Account {
 
-    private final int id;
-    private final int userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private BigDecimal moneyAmount;
 
-    public Account(int id, int userId, BigDecimal moneyAmount) {
-        this.id = id;
-        this.userId = userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Account() {
+    }
+
+    public Account(BigDecimal moneyAmount, User user) {
         this.moneyAmount = moneyAmount;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getUserId() {
-        return userId;
+        this.user = user;
     }
 
     public BigDecimal getMoneyAmount() {
         return moneyAmount;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public void setMoneyAmount(BigDecimal moneyAmount) {
-        this.moneyAmount = moneyAmount.setScale(2, RoundingMode.HALF_UP);
+        this.moneyAmount = moneyAmount;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User userId) {
+        this.user = userId;
     }
 
     @Override
     public String toString() {
         return "Account{" +
                 "id=" + id +
-                ", userId=" + userId +
                 ", moneyAmount=" + moneyAmount +
                 '}';
     }

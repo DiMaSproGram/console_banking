@@ -1,10 +1,7 @@
 package org.example.listener;
 
-import jakarta.annotation.PostConstruct;
 import org.example.exception.BankBusinessException;
-import org.example.service.AccountService;
 import org.example.service.CommandExecutor;
-import org.example.service.UserService;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -17,7 +14,7 @@ public class OperationsConsoleListener implements Runnable {
     public OperationsConsoleListener(CommandExecutor commandExecutor) {
         this.commandExecutor = commandExecutor;
     }
-
+    
     @Override
     public void run() {
         try (Scanner scanner = new Scanner(System.in)) {

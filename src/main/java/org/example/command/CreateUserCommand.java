@@ -32,9 +32,9 @@ public class CreateUserCommand extends Command {
 
         User user = userService.createUser(login);
 
-        System.out.printf("User with login '%s' created!\n", user.login());
+        System.out.printf("User with login '%s' created!\n", user.getLogin());
 
-        Account account = accountService.createAccount(user.id());
+        Account account = accountService.createAccount(user.getId());
 
         System.out.printf("Account with balance '%s' created!\n", account.getMoneyAmount());
     }
